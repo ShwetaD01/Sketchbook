@@ -1,4 +1,4 @@
-const COLOURS = {
+const COLORS = {
 
 BLACK: "black",
 RED:"red",
@@ -11,4 +11,14 @@ ORANGE: "orange"
 
 }
 
-export {COLOURS};
+export {COLORS};
+
+const MENU_ITEMS = {
+    PENCIL: "pencil",
+    ERASER: 'eraser',
+    UNDO: "undo",
+    REDO: "redo",
+    DOWNLOAD: "download"
+
+}
+export {MENU_ITEMS};
