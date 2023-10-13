@@ -18,11 +18,10 @@
 
              .color{
                     @apply w-4 h-4 mr-1 rounded-sm cursor-pointer;
-                    &:hover, &:active{
+                    &:hover, &.active{
                        border: 1.5px solid theme('colors.text2');
                        box-shadow: theme('colors.shadow2');
             
                     }
     }
 }
-

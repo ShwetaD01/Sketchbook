@@ -1,5 +1,5 @@
 const COLORS = {
-
+WHITE: "White",
 BLACK: "black",
 RED:"red",
 PURPLE:"purple",
