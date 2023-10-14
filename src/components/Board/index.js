@@ -5,34 +5,35 @@ import {actionItemClick} from '../../pages/slice/menuSlice';
 const Board = () => {
 
     const dispatch = useDispatch();
+    const drawHistory = useRef([]);
+    const historyPointer = useRef(0)
 
     const canvasRef = useRef(null);
     const shouldDraw = useRef(false)
-    // const activeMenuItem = useSelector((state) => state.menu.activeMenuItem);
-    // const {color, size} = useSelector((state) =>  state.toolbox[activeMenuItem])
-
     const {actionMenuItem,activeMenuItem} = useSelector((state) => state.menu);
-    const {color, size} = useSelector((state) => state.toolbox[activeMenuItem])
-console.log(color, size, 'kkk')
+    const {color, size} = useSelector((state) => state.toolbox[activeMenuItem]);
 
 useEffect(()=> {
     if(!canvasRef.current) return
-
     const canvas = canvasRef.current;
     const context = canvas.getContext('2d')
 
     if(actionMenuItem === MENU_ITEMS.DOWNLOAD){
         const Url = canvas.toDataURL()
-        // console.log(Url);
         const anchor = document.createElement('a')
         anchor.href = Url;
         anchor.download = 'sketch.jpg';
         anchor.click()
 
+    }else if(actionMenuItem === MENU_ITEMS.UNDO || actionMenuItem === MENU_ITEMS.REDO){
+        if(historyPointer.current > 0 && actionMenuItem === MENU_ITEMS.UNDO ) historyPointer.current -= 1
+        if(historyPointer.current < drawHistory.current.length -1 && actionMenuItem === MENU_ITEMS.REDO ) historyPointer.current += 1
+        const imageData = drawHistory.current[historyPointer.current]
+        context.putImageData(imageData, 0,0)
     }
     dispatch(actionItemClick(null))
 
-}, [actionMenuItem])
+}, [actionMenuItem, dispatch])
    
     useEffect(()=>{
         if(!canvasRef.current) return
@@ -86,12 +87,16 @@ useEffect(()=> {
         
         const handleMouseUp = (e)=> {
             shouldDraw.current = false;
+            const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+            drawHistory.current.push(imageData)
+            historyPointer.current = drawHistory.current.length -1;
+
         }
 
-        context.beginPath();
-        context.moveTo(0, 0);
-        context.lineTo(100, 100)
-        context.stroke()
+        // context.beginPath();
+        // context.moveTo(0, 0);
+        // context.lineTo(100, 100)
+        // context.stroke()
 
         canvas.addEventListener('mousedown', handleMouseDown)
         canvas.addEventListener('mousemove', handleMouseMove)
