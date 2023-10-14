@@ -31,7 +31,7 @@ useEffect(()=> {
         const imageData = drawHistory.current[historyPointer.current]
         context.putImageData(imageData, 0,0)
     }
-    dispatch(actionItemClick(null))
+    dispatch(actionItemClick(null));
 
 }, [actionMenuItem, dispatch])
    
