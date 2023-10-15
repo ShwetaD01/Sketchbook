@@ -12,7 +12,7 @@ const Toolbox = () => {
     const showstrokeToolOption = activeMenuItem=== MENU_ITEMS.PENCIL;
     const showBrushToolOption = activeMenuItem=== MENU_ITEMS.ERASER || activeMenuItem=== MENU_ITEMS.PENCIL
     const {color, size} = useSelector((state) => state.toolbox[activeMenuItem])
-console.log(color, size)
+// console.log(color, size)
     const updateBrushSize = (e)=>{
         dispatch(changeBrushSize({item: activeMenuItem, size: e.target.value}))
 

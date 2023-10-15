@@ -2,7 +2,8 @@ const { createSlice } = require("@reduxjs/toolkit");
 import { MENU_ITEMS } from "@/constants";
 
 const initialState = {
-    activeMenuItem: MENU_ITEMS.PENCIL
+    activeMenuItem: MENU_ITEMS.PENCIL,
+    actionMenuItem: null
 }
 const menuSlice = createSlice({
     name: "menu",
@@ -13,12 +14,11 @@ const menuSlice = createSlice({
 },
 
 actionItemClick: (state,action) => {
-    state.actionItemClick =  action.payload
+    state.actionMenuItem =  action.payload
 }
 
 }
 })
-
-export const {menuItemClick, actionItemClick} = menuSlice.actions;
+    export const {menuItemClick,actionItemClick } = menuSlice.actions;
 
 export default menuSlice.reducer;
