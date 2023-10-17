@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil, faEraser, faRotateLeft,faRotateRight,faFileArrowDown } from '@fortawesome/free-solid-svg-icons';
 import styles from './index.module.css'
 import { MENU_ITEMS } from '@/constants';
-import { menuItemClick, actionItemClick } from '@/pages/slice/menuSlice';
+import { menuItemClick, actionItemClick } from '@/slice/menuSlice';
 import cx from 'classnames';
 
 

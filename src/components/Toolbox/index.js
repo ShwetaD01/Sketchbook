@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './index.module.css';
 import { COLORS, MENU_ITEMS } from '@/constants';
 import { useSelector, useDispatch } from 'react-redux';
-import {changeBrushSize,changeColor} from '../../pages/slice/toolboxSlice';
+import {changeBrushSize,changeColor} from '../../slice/toolboxSlice';
 import cx from 'classnames';
 
 const Toolbox = () => {

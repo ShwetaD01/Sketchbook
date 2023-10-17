@@ -1,5 +1,5 @@
-const { MENU_ITEMS, COLORS } = require("@/constants");
-const { createSlice } = require("@reduxjs/toolkit");
+import { MENU_ITEMS, COLORS } from "@/constants";
+import{ createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     [MENU_ITEMS.PENCIL] :{
