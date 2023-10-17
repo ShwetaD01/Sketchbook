@@ -1,6 +1,6 @@
 import '@/styles/globals.css'
 import { Provider } from 'react-redux';
-import { store } from '../pages/strore';
+import { store } from '../strore';
 
 export default function App({ Component, pageProps }) {
   return <Provider store={store}>
