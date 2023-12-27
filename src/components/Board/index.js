@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useLayoutEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { actionItemClick } from '../../slice/menuSlice';
 import { socket } from '@/socket';
+import { config } from 'process';
 
 const Board = () => {
 
@@ -45,10 +46,21 @@ const Board = () => {
 
         const changeConfig = (color, size) => {
             context.strokeStyle = color,
-                context.lineWidth = size
+            context.lineWidth = size
 
         }
+        const handleChangeConfig = (config) => {
+            console.log(config, 'config')
+            changeConfig(config.color,config.size)
+
+        }
+       
         changeConfig(color, size)
+        socket.on('changeConfig',handleChangeConfig )
+
+        return()=>{
+            socket.off('changeConfig',handleChangeConfig )
+        }
 
     }, [color, size])
 
@@ -77,6 +89,7 @@ const Board = () => {
         const handleMouseDown = (e) => {
             shouldDraw.current = true;
             designPath(e.clientX, e.clientY)
+            socket.emit('designPath', {x:e.clientX, y:e.clientY })
 
 
         }
@@ -84,6 +97,7 @@ const Board = () => {
         const handleMouseMove = (e) => {
             if (!shouldDraw.current) return;
             drawLine(e.clientX, e.clientY)
+            socket.emit('drawLine', {x:e.clientX, y:e.clientY })
 
         }
 
@@ -94,24 +108,35 @@ const Board = () => {
             historyPointer.current = drawHistory.current.length - 1;
 
         }
-
-        // context.beginPath();
-        // context.moveTo(0, 0);
-        // context.lineTo(100, 100)
-        // context.stroke()
+        const handleDesignPath = (path) =>{
+            designPath(path.x, path.y)
+        }
+        const handleDrawLine =(path) => {
+            drawLine(path.x, path.y)
+        }
 
         canvas.addEventListener('mousedown', handleMouseDown)
         canvas.addEventListener('mousemove', handleMouseMove)
         canvas.addEventListener('mouseup', handleMouseUp)
 
-        socket.on("connect", () => {
-            console.log('client connected');
-        });
+        // socket.on("connect", () => {
+        //     console.log(socket.id); // x8WIv7-mJelg7on_ALbx
+        //   });
+        //   socket.on("connect", () => {
+        //     console.log(socket.connected); // true
+        //   });
+
+        socket.on('designPath', handleDesignPath)
+        socket.on('drawLine', handleDrawLine )
 
         return () => {
             canvas.removeEventListener('mousedown', handleMouseDown)
             canvas.removeEventListener('mousemove', handleMouseMove)
             canvas.removeEventListener('mouseup', handleMouseUp)
+
+            socket.off('designPath', handleDesignPath)
+            socket.off('drawLine', handleDrawLine )
+    
         }
     }, [])
     return (
